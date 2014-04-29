@@ -9,5 +9,4 @@ newBall = cont.actuators["newBall"]
 
 
 if ball.positive:
-
     cont.activate(newBall)

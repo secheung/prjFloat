@@ -75,7 +75,8 @@ def main():
         if(UpDir(foo)):
                 dx = xLinSpeed(pos[0])
                 dy = yLinSpeed(pos[1])
-                move.dLoc = [dx,dy,0.0]
+                #move.dLoc = [dx,dy,0.0]
+                move.dLoc = [dx,0,0.0]
                 cont.activate(move)
         else:
             move.dLoc = [0.0, 0.0, 0.0] 
