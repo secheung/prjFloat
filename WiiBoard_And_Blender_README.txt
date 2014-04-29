@@ -110,6 +110,10 @@ Step 4 - Run setup.py Script to Generate Desired .so File
 		
 		python3.3 setup.py build
 
+	--> If an error comes up regarding libwiicpp.so being missing, add the following to the .bashrc file in the home directory
+
+		export LD_LIBRARY_PATH=/usr/local/lib
+
 ------------------------------------------------
 Step 5 - Link .so File to Blender Add-on Folder
 ------------------------------------------------
