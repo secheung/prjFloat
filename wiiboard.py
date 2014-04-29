@@ -15,15 +15,7 @@ copX = 0
 copY = 0
 
 #initialize and calibrate
-#try:
-#    foo.poll()
-#except:
-#    foo = None
 foo = None
-#global foo 
-
-#if not foo:
-#    foo = PyBalanceBoard()
 
 #**Functions**
 
@@ -52,6 +44,21 @@ def LeftDir():
     if(copY < topThresh):
         return 1  
 
+def xLinSpeed(x):
+    
+    b = -0.05
+    m = 0.000233
+    y = m*x + b
+    return y
+    
+def yLinSpeed(x):
+    
+    b = -0.05
+    m = 0.000426
+    y = m*x + b
+    return y    
+
+
 def calcCOP(tr,tl,br,bl):
     netForce = tr + tl + br + bl
     if((netForce < 50) and (netForce > -50)):
@@ -61,7 +68,6 @@ def calcCOP(tr,tl,br,bl):
     if(netForce != 0):
         copX = ((((tr+br) - (tl+bl)) / (netForce*1.0))+1) * (WIIXMAX/2)
         copY = ((((tr+tl) - (br+bl)) / (netForce*1.0))+1) * (WIIYMAX/2)
-#	print "(%d,%d,%d)" %(netForce,cop_x,cop_y)
     values = [copX ,copY]
     return values
 
@@ -105,11 +111,16 @@ def main():
     print("X: %s, Y: %s" % (pos[0], pos[1]))
   
     if(UpDir(foo)):
-        move.dLoc = [0.0, 0.0, 0.05]   
-        cont.activate(move)
+            dx = xLinSpeed(pos[0])
+            dy = yLinSpeed(pos[1])
+            move.dLoc = [dx,dy,0.0]
+            cont.activate(move)
     else:
-        move.dLoc = [0.0, 0.0, -0.05] 
-        cont.activate(move)
+        move.dLoc = [0.0, 0.0, 0.0] 
+        cont.deactivate(move)
+    
+
+    
     
 #if(TopDir()):
 #    move.dLoc = [0.0, 0.05, 0.0]
