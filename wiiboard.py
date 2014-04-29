@@ -1,11 +1,14 @@
 #!/usr/bin/python
 import bge
 from balanceboard import PyBalanceBoard
-#from boardlib import *
 
 #Global Variables
+maxSpeedx = 1
+maxSpeedy = 1
 WIIXMAX = 430 #length in mm
 WIIYMAX = 235 #width in mm
+mX = 2*maxSpeedx/WIIXMAX
+mY = 2*maxSpeedy/WIIYMAX
 topThresh = 300
 botThresh = 100
 rightThresh = 150
@@ -23,41 +26,18 @@ def UpDir(foo):
 
     if(foo.getTotal() > heightThresh):
         return 1
-    
-def TopDir():
-    
-    if(copX > topThresh):
-        return 1
-    
-def BotDir():
-    
-    if(copX < botThresh):
-        return 1   
-
-def RightDir():
-    
-    if(copY > topThresh):
-        return 1
-    
-def LeftDir():
-    
-    if(copY < topThresh):
-        return 1  
 
 def xLinSpeed(x):
     
-    b = -0.05
-    m = 0.000233
-    y = m*x + b
+    b = -maxSpeedx
+    y = mX*x + b
     return y
     
 def yLinSpeed(x):
     
-    b = -0.05
-    m = 0.000426
-    y = m*x + b
+    b = -maxSpeedy
+    y = mY*x + b
     return y    
-
 
 def calcCOP(tr,tl,br,bl):
     netForce = tr + tl + br + bl
@@ -75,6 +55,7 @@ def calcCOP(tr,tl,br,bl):
 def main():
     
     global foo
+    
     if foo is None:
         foo = PyBalanceBoard()    
     
@@ -86,6 +67,8 @@ def main():
         own = cont.owner
         move = cont.actuators["move"]
         
+        #Need two polls for refresh
+        foo.poll()
         foo.poll()
         pos = calcCOP(foo.topRight, foo.topLeft, foo.bottomRight, foo.bottomLeft)
         print("%s, %s, %s, %s, %s" % (foo.getTotal(), foo.topRight, foo.topLeft, foo.bottomRight, foo.bottomLeft))
