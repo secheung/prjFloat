@@ -78,55 +78,25 @@ def main():
     if foo is None:
         foo = PyBalanceBoard()    
     
-    cont = bge.logic.getCurrentController()
-    own = cont.owner
-#pressup = cont.sensors["up"]
-#pressdown = cont.sensors["down"]
-    move = cont.actuators["move"]
-#speed = move.dLoc[1]
-
-#if pressup.positive:
-#    speed = speed + 0.05
-#    move.dLoc = [0.0, speed, 0.0]
-#    cont.activate(move)
-
-#elif pressdown.positive:
-#    speed = speed - 0.05
-#    cont.deactivate(move)
-#    move.dLoc = [0.0, speed, 0.0]
-
-
-    
-#if foo is None:
-#    foo = PyBalanceBoard()
-#if(foo.hasWiiMotes()):
-#    foo.poll()
-    
-
-#while foo.hasWiiMotes():
-    foo.poll()
-  #print("%s, %s, %s, %s, %s",foo.total,foo.topLeft,foo.topRight,foo.bottomLeft,foo.bottomRight)
-  #foo.printSensors()
-    pos = calcCOP(foo.topRight, foo.topLeft, foo.bottomRight, foo.bottomLeft)
-    print("X: %s, Y: %s" % (pos[0], pos[1]))
-  
-    if(UpDir(foo)):
-            dx = xLinSpeed(pos[0])
-            dy = yLinSpeed(pos[1])
-            move.dLoc = [dx,dy,0.0]
-            cont.activate(move)
+    if(not foo.hasWiiMotes()):
+        foo = None
     else:
-        move.dLoc = [0.0, 0.0, 0.0] 
-        cont.deactivate(move)
+    
+        cont = bge.logic.getCurrentController()
+        own = cont.owner
+        move = cont.actuators["move"]
+        
+        foo.poll()
+        pos = calcCOP(foo.topRight, foo.topLeft, foo.bottomRight, foo.bottomLeft)
+        print("%s, %s, %s, %s, %s" % (foo.getTotal(), foo.topRight, foo.topLeft, foo.bottomRight, foo.bottomLeft))
+        if(UpDir(foo)):
+                dx = xLinSpeed(pos[0])
+                dy = yLinSpeed(pos[1])
+                move.dLoc = [dx,dy,0.0]
+                cont.activate(move)
+        else:
+            move.dLoc = [0.0, 0.0, 0.0] 
+            cont.deactivate(move)
     
 
     
-    
-#if(TopDir()):
-#    move.dLoc = [0.0, 0.05, 0.0]
-#    cont.activate(move)
-
-#move.dLoc = [0.0, 0.0, 0.0]
-  
-#print("ended")
-  
