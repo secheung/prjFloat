@@ -3,8 +3,8 @@ import bge
 from balanceboard import PyBalanceBoard
 
 #Global Variables
-maxSpeedx = 1
-maxSpeedy = 1
+maxSpeedx = 0.35
+maxSpeedy = 0.35
 WIIXMAX = 430 #length in mm
 WIIYMAX = 235 #width in mm
 mX = 2*maxSpeedx/WIIXMAX
