@@ -1,0 +1,51 @@
+1) build HIDAPI
+
+1.1) run prereqs
+
+sudo apt-get install libudev-dev libusb-1.0-0-dev libfox-1.6-dev
+sudo apt-get install autotools-dev autoconf automake libtool
+
+1.2) run instructions
+
+./bootstrap
+./configure
+make
+make install     <----- as root, or using sudo
+
+
+2) build openHMD
+
+2.1)run instructions
+
+./autogen.sh # (if you're building from the git repository)
+./configure [--enable-openglexample]
+make
+sudo make install
+
+
+2.2)run this as admin(sudo -s) if you don't want to run program as admin everytime
+
+echo 'SUBSYSTEM=="usb", ATTR{idVendor}=="2833", MODE="0666", GROUP="plugdev"' > /etc/udev/rules.d/83-hmd.rules
+udevadm control --reload-rules
+
+2.3)remove and plug back in rift for change to take effect
+
+
+3)build python-rift
+
+3.1)fix errors in setup.py
+ - change ["rift.pyx", "Rift.cpp"],  to ["pyrift.pyx", "Rift.cpp"],
+ - change include_dirs=['/usr/include/openhmd']) to include_dirs=['/usr/local/include/openhmd'])
+
+run python3.3 setup.py build
+
+
+3.2)link file to addons
+(rename .so file if you want(I use rift.so))
+
+mkdir ~/.blender/2.67/scripts/addons/game_engine_rift/
+ln -s PATH_TO_PYTHON_RIFT_FOLDER/python-rift/rift.cpython-33m.so /usr/lib/blender/scripts/addons/game_engine_rift
+
+
+at any point of install you are missing package install the package
+
