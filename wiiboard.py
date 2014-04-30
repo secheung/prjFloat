@@ -71,7 +71,7 @@ def main():
         foo.poll()
         foo.poll()
         pos = calcCOP(foo.topRight, foo.topLeft, foo.bottomRight, foo.bottomLeft)
-        print("%s, %s, %s, %s, %s" % (foo.getTotal(), foo.topRight, foo.topLeft, foo.bottomRight, foo.bottomLeft))
+        #print("%s, %s, %s, %s, %s" % (foo.getTotal(), foo.topRight, foo.topLeft, foo.bottomRight, foo.bottomLeft))
         if(UpDir(foo)):
                 dx = xLinSpeed(pos[0])
                 dy = yLinSpeed(pos[1])
